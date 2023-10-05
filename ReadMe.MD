@@ -1,5 +1,3 @@
-# WIP
-
 ### Why
 
 - Storing sensitive data like secrets objects for kubernetes in a Github repository is not safe and also not recommended. Because raw Kubernetes secrets, which are encoded in base64 and easily decodable.
@@ -37,6 +35,25 @@ sudo install -m 755 kubeseal /usr/local/bin/kubeseal
 - Check whether kebuseal cli can talk to the kubernetes cluster:
 
    - ```kubeseal --fetch-cert --controller-name=my-release-sealed-secrets --controller-namespace=default```
+
+### Test
+
+1. Create a new secret yaml file named dashboard with DASH_PASW=supersecret123
+   - ```kubectl create secret generic dashboard --from-literal=DASH_PASW=supersecret123 --dry-run=client -o yaml > secret.yaml```
+
+2. Create a sealed-secret using the secret above:
+
+   - ```kubeseal --controller-name=my-release-sealed-secrets --controller-namespace=default --format yaml < secret.yaml > sealed-secret.yaml```
+
+3. Apply the sealed-secret to the kubernetes cluster
+
+   - ```kubectl apply -f sealed-secret.yaml```
+
+   - When we run kubectl get secret, we can see that a Kubernetes secret object named "dashboard" is created. Because the kubeseal operator automatically decrypts the sealed-secret and creates the kubernetes secret behind the scene.
+      - ```kubectl get secret
+           NAME                               TYPE                 DATA   AGE
+           dashboard                          Opaque               1      66s
+        ```
 
 ### Resources
 

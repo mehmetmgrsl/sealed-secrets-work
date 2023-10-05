@@ -34,6 +34,9 @@ wget "https://github.com/bitnami-labs/sealed-secrets/releases/download/v${KUBESE
 tar -xvzf kubeseal-${KUBESEAL_VERSION}-linux-amd64.tar.gz kubeseal
 sudo install -m 755 kubeseal /usr/local/bin/kubeseal
   ```
+- Check whether kebuseal cli can talk to the kubernetes cluster:
+
+   - ```kubeseal --fetch-cert --controller-name=my-release-sealed-secrets --controller-namespace=default```
 
 ### Resources
 

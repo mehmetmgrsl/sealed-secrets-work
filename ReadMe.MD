@@ -4,6 +4,10 @@
 
 - Sealed-secrets allow you to encrypt secrets to safely store in a public repository. (2*) 
 
+### Sealed-secrets workflow
+
+![ealed-secrets workflow](sealed-secret-workflow.png)
+
 ### Installation
 
 0. Prerequisites
